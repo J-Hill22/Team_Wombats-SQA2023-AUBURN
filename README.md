@@ -3,7 +3,7 @@
 Team Wombats
 
 Members:
-Jarrett Hill
-Elwood Hogan
-Connor Wyatt
+Jarrett Hill,
+Elwood Hogan,
+Connor Wyatt,
 Aiden Green
