@@ -14,13 +14,15 @@ import pathlib as pl
 import re
 import subprocess
 import os
+import myLogger
 
 #update basepath
 base_path = r" "
 
 key_jsonpath_mapping = {}
 
-    
+log = myLogger.createLoggerObj()
+
 def checkIfWeirdYAML(yaml_script):
     '''
     to filter invalid YAMLs such as ./github/workflows/ 
@@ -32,31 +34,38 @@ def checkIfWeirdYAML(yaml_script):
 
 
 def keyMiner(dic_, value):
+  # Forensics method #1
   '''
   If you give a value, then this function gets the corresponding key, and the keys that call the key 
   i.e. the whole hierarchy
   Returns None if no value is found  
   '''
+  log.info("Generic Information: Running keyMiner with value: %s", str(value))
   if dic_ == value:
+    log.info("Debug Information: Value Found")
     return [dic_]
   elif isinstance(dic_, dict):
     for k, v in dic_.items():
       p = keyMiner(v, value)
       if p:
+        log.info("Debug Information: Value Found")
         return [k] + p
   elif isinstance(dic_, list):
     lst = dic_
     for i in range(len(lst)):
       p = keyMiner(lst[i], value)
       if p:
+        log.info("Debug Information: Value Found")
         return [str(i)] + p
 
 
 
 def getKeyRecursively(  dict_, list2hold,  depth_ = 0  ) :
+    # Forensics method #2
     '''
     gives you ALL keys in a regular/nested dictionary 
     '''
+    log.info("Generic Information: Running getKeyRecursively with list2hold: %s, depth: %s", str(list2hold), str(depth_))
     if  isinstance(dict_, dict) :
         # for key_, val_ in sorted(dict_.items(), key=lambda x: x[0]):    
         for key_, val_ in sorted(dict_.items(), key = lambda x: x[0] if ( isinstance(x[0], str) ) else str(x[0])  ):    
@@ -71,26 +80,34 @@ def getKeyRecursively(  dict_, list2hold,  depth_ = 0  ) :
                             depth_ += 1 
                             getKeyRecursively( listItem, list2hold,  depth_ )     
             else: 
-                list2hold.append( (key_, depth_) ) 
+                list2hold.append( (key_, depth_) )
+    log.info("Generic Information: getKeyRecursively complete; final list2hold: %s", str(list2hold))
     #print(list2hold)               
 
 def getValuesRecursively(  dict_   ) :
+    # Forensics method #3
     '''
     gives you ALL values in a regular/nested dictionary 
     '''
+    log.info("Generic Information: Running getValuesRecursively")
     if  isinstance(dict_, dict) :
         for val_ in dict_.values():
-            yield from getValuesRecursively(val_) 
+            yield from getValuesRecursively(val_)
+            log.info("Debug Information: input dict_ is dict; val found: %s", str(val_)) 
             #print(val_)
     elif isinstance(dict_, list):
         for v_ in dict_:
             yield from getValuesRecursively(v_)
+            log.info("Debug Information: input dict_ is list; val found: %s", str(v_))
             #print(v_)
-    else: 
+    else:
+        log.info("Debug Information: input dict_ not of type dict or list")
         yield dict_ 
 
 
 def checkIfValidK8SYaml(path2yaml):
+    # Forensics method #4
+    log.info("Generic Information: Running checkIfValidK8SYaml with path2yaml: %s", str(path2yaml))
     val2ret   = False 
     dict_as_list = loadMultiYAML( path2yaml )
     yaml_dict    = getSingleDict4MultiDocs( dict_as_list )        
@@ -100,29 +117,36 @@ def checkIfValidK8SYaml(path2yaml):
     for k_ in k_list:
         temp_.append( k_[0]  )
     key_lis      = list( getValuesRecursively  ( yaml_dict ) )
-    if ( any(x_ in key_lis for x_ in constants.K8S_FORBIDDEN_KW_LIST ) ): 
+    if ( any(x_ in key_lis for x_ in constants.K8S_FORBIDDEN_KW_LIST ) ):
+        log.info("Debug Information: Key found in forbidden list") 
         val2ret = False 
     else: 
         if ( constants.API_V_KEYNAME in temp_ ) and (constants.KIND_KEY_NAME in temp_):
             val2ret = True 
+    log.info("Generic Information: Is valid K8S yaml -> %s", str(val2ret))
     return val2ret
 
 
 
 def getValsFromKey(dict_, target, list_holder  ):
+    # Forensics method #5
     '''
     If you give a key, then this function gets the corresponding values 
     Multiple values are returned if there are keys with the same name  
-    '''    
+    ''' 
+    log.info("Generic Information: Running getValsFromKey with target: %s", str(target))   
     if ( isinstance( dict_, dict ) ):
         for key, value in dict_.items():
             # print( key, len(key) , target, len( target ), value  )
             if key == target:
+                log.info("Debug Information: Value found")
                 list_holder.append( value )
             else: 
                 if isinstance(value, dict):
+                    log.info("Debug Information: Value is of type dict")
                     getValsFromKey(value, target, list_holder)
                 elif isinstance(value, list):
+                    log.info("Debug Information: Value is of type list")
                     for ls in value:
                         getValsFromKey(ls, target, list_holder)
 
