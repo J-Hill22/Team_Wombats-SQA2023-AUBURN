@@ -3,9 +3,9 @@
 Members: Jarrett Hill, Elwood Hogan, Connor Wyatt, Aiden Green
 
 ## Aiden Green
-- Worked on deliverable
-- Implemented
-- Lessons Learned:
+- Worked on deliverable 4.c.
+- Implemented forensics in 5 different methods located within parser.py.
+- Lessons Learned: Built upon knowledge gained from implementing forensics in internship and previously in the class. Forensics is vital for large repos as not everyone using the code will know exactly how it works, this makes it much easier for debugging and overall understanding of a codebase.
 
 ## Jarrett Hill
 - Worked on deliverable 4.a.
