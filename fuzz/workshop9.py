@@ -18,9 +18,6 @@ def sub(v1, v2):
 def mult(v1, v2):
    return v1 * v2 
 
-def remaind(v1, v2):
-   return v1 % v2 
-
 def pow(v1, v2):
    return v1 ^ v2 
 
@@ -38,10 +35,6 @@ def fuzzValuesSub(val1, val2):
 
 def fuzzValuesMult(val1, val2):
    res = mult(val1, val2)
-   return res  
-
-def fuzzValuesRemaind(val1, val2):
-   res = remaind(val1, val2)
    return res  
 
 def fuzzValuesPow(val1, val2):
@@ -76,8 +69,6 @@ if __name__=='__main__':
     simpleFuzzer(fuzzValuesSub)
     print("Multiplying fuzz")
     simpleFuzzer(fuzzValuesMult)
-    print("Remainding fuzz")
-    simpleFuzzer(fuzzValuesRemaind)
     print("Pow fuzz")
     simpleFuzzer(fuzzValuesPow)
     
