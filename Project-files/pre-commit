@@ -45,7 +45,7 @@ EOF
 	exit 1
 fi
 
-bandit **/*.py -r -a file -f csv -o \KubeSec-master\\vulnerabilities.csv
+bandit **/*.py -r . --exclude Project-files/**/*.py -a file -f csv -o /KubeSec-master/vulnerabilities.csv
 result = $?
 if (( result == 0 )); then
 	echo "bandit found no vulnerabilities"
