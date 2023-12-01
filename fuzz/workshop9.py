@@ -1,8 +1,4 @@
-'''
-Author: Akond Rahman 
-Code needed for Workshop 9
-'''
-
+#By Elwood Hogan
 import random 
 import json
 
