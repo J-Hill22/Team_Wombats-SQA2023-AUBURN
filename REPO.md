@@ -13,9 +13,9 @@ Members: Jarrett Hill, Elwood Hogan, Connor Wyatt, Aiden Green
 - Lessons Learned: Reinforced knowledge gained from this course in regard to applying static analysis to a github repository and using a bandit script to scan for security vulnerabilities.
 
 ## Elwood Hogan
-- Worked on deliverable
-- Implemented
-- Lessons Learned:
+- Worked on deliverable 4.b.
+- Implemented fuzzing for 5 different forms of calculations
+- Lessons Learned: I understand the value of fuzzing, and how to apply it to methods
 
 ## Connor Wyatt
 - Worked on deliverable
