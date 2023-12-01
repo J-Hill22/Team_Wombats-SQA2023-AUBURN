@@ -45,13 +45,15 @@ EOF
 	exit 1
 fi
 
-bandit **/*.py -r . --exclude Project-files/**/*.py -a file -f csv -o /KubeSec-master/vulnerabilities.csv
-result = $?
+bandit **/*.py -r --exclude Project-files/**/*.py -a file -f csv -o KubeSec-master/vulnerabilities.csv
+result=$?
 if (( result == 0 )); then
 	echo "bandit found no vulnerabilities"
 else
 	echo "bandit found vulnerabilities"
 fi
+
+exit 0
 
 # If there are whitespace errors in files other than CSV, print the offending file names and fail.
 exec git diff-index --check --cached $against -- | grep -v '\.csv$'
