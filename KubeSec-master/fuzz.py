@@ -1,0 +1,55 @@
+#By Elwood Hogan
+import random 
+import json
+import graphtaint
+
+def fuzzValuesGetYAMLFiles(val1, val2):
+   res = graphtaint.getYAMLFiles(val1)
+   return res  
+
+def fuzzValuesConstructHelmString(val1, val2):
+    res = graphtaint.constructHelmString(val1, val2)
+    return res  
+
+def fuzzValuesGetSHFiles(val1, val2):
+    res = graphtaint.getSHFiles(val1)
+    return res  
+
+def fuzzValuesReadBashAsStr(val1, val2):
+    res = graphtaint.readBashAsStr(val1)
+    return res 
+
+def fuzzValueGetValidTaints(val1, val2):
+    res = graphtaint.getValidTaints(val1)
+    return res 
+
+def simpleFuzzer(func): 
+    # Load the naughty strings from a JSON file in the same directory
+    with open('blns.json', 'r', encoding='utf-8') as file:
+        naughty_strings = json.load(file)
+
+    error_messages = []
+
+    while len(error_messages) < 7:
+        val1 = random.choice(naughty_strings + list(range(100)))
+        val2 = random.choice(naughty_strings + list(range(100)))
+
+        try:
+            func(val1, val2)
+        except (ZeroDivisionError, TypeError, FileNotFoundError, ValueError, OSError) as e:
+            error_message = f"Error with {val1}/{val2}: {e}"
+            error_messages.append(error_message)
+            print(error_message)
+    pass 
+
+if __name__=='__main__':
+    print("Fuzzing GetYAMLFiles")
+    simpleFuzzer(fuzzValuesGetYAMLFiles)
+    print("Fuzzing constructHelmString")
+    simpleFuzzer(fuzzValuesConstructHelmString)
+    print("Fuzzing GetSHFiles")
+    simpleFuzzer(fuzzValuesGetSHFiles)
+    print("Fuzzing readBashAsStr")
+    simpleFuzzer(fuzzValuesReadBashAsStr)
+    print("Fuzzing getValidTaints")
+    simpleFuzzer(fuzzValueGetValidTaints)
