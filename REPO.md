@@ -18,7 +18,8 @@ Members: Jarrett Hill, Elwood Hogan, Connor Wyatt, Aiden Green
 - Lessons Learned: I understand the value of fuzzing, and how to apply it to methods
 
 ## Connor Wyatt
-- Worked on deliverable
-- Implemented
-- Lessons Learned:
+- Worked on deliverable 4.b. and checked deliverable 4.c.
+- Implemented fuzzing actions that are automatically performed by Github Actions.
+-   Also confirmed validity of fuzzing and logging methods.
+- Lessons Learned: While having methods for improving the quality of our code is important, the implementation of this code into our workflow is also integral. Utilzing Continuous Integration via Github Actions, the chances of invalid or erroneous code getting onto the repository (and thus becoming harder to remove over time) drastically decreases.
 
