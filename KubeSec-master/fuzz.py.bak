@@ -36,7 +36,7 @@ def simpleFuzzer(func):
 
         try:
             func(val1, val2)
-        except (ZeroDivisionError, TypeError, FileNotFoundError, ValueError) as e:
+        except (ZeroDivisionError, TypeError, FileNotFoundError, ValueError, OSError) as e:
             error_message = f"Error with {val1}/{val2}: {e}"
             error_messages.append(error_message)
             print(error_message)

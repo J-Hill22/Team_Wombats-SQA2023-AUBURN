@@ -1,4 +1,4 @@
-#By Elwood Hogan
+#By Elwood Hogan and Connor Wyatt
 import random 
 import json
 import graphtaint
